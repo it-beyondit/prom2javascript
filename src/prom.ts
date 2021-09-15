@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2021 BeyondIt S.r.l.
+ *
+ * Licensed under the MIT License, see LICENSE file.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 import readline from 'readline';
 import stream from 'stream';
 
@@ -350,5 +363,30 @@ export async function getMetricsFromStream(input: stream.Readable): Promise<Prom
                 rl.close();
             }
         });
+    });
+}
+
+export async function getMetricsFromIterator(input: Iterator<string>): Promise<PromMetrics> {
+    return new Promise<PromMetrics>((resolve, reject) => {
+        try {
+            const rawMetrics: PromRawMetrics = {};
+
+            let item = input.next();
+
+            while(!item.done) {
+                addMetricLine(rawMetrics, item.value);
+
+                item = input.next();
+            }
+                
+            const metrics: PromMetrics = {}
+        
+            Object.keys(rawMetrics).forEach(key => metrics[key] = getMetric(rawMetrics[key]));
+
+            resolve(metrics);
+        }
+        catch(error) {
+            reject(error);
+        }
     });
 }

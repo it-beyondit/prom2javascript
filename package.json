@@ -1,6 +1,6 @@
 {
   "name": "prom2javascript",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A library to convert Prometheus metrics from text to JavaScript.",
   "main": "dist/prom.js",
   "types": "dist/prom.d.ts",
@@ -21,6 +21,10 @@
     "metrics",
     "openmetrics"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/it-beyondit/prom2javascript.git"
+  },
   "author": "Alessandro Scotti",
   "license": "MIT",
   "devDependencies": {

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { getMetricsFromIterator, PromData, PromSummaryData } from '../../src/prom'
 
 const CounterData =[
@@ -40,7 +41,7 @@ it('gets input from a generator', () => {
 });
 
 it('gets input from a string', () => {
-    const block = require('fs').readFileSync('test/unit/mixed.test.data.txt', 'utf8');
+    const block = fs.readFileSync('test/unit/mixed.test.data.txt', 'utf8');
     
     expect(typeof block).toEqual('string');
 
